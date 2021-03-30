@@ -1,0 +1,24 @@
+# Obiecte modelate
+
+Profesor
+Curs
+Enrollment
+Student
+Grupa
+Serie
+Quiz
+QuizQuestion
+
+# DbStore
+List, SortedList, Array ....
+
+# DbBackend
+InMemory
+CSVFile
+JDBC
+
+# Se ocupa de operatiile logice asupra aplicatiei
+Service
+
+# Tine minte configuratiile aplicatiei
+App
