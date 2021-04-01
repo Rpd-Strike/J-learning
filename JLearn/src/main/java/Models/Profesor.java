@@ -1,13 +1,17 @@
 package Models;
 
-import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.regex.Pattern;
+
+import Database.DbStore;
 
 public class Profesor extends Model
 {
     private String fullName;
     private String email;
     private String phone;
+
+    public Profesor() { }
 
     public Profesor(String fullName, String email, String phone)
     {
@@ -22,23 +26,45 @@ public class Profesor extends Model
     }
 
     @Override
+    public String ModelName() {
+        return "Profesor";
+    }
+
+    @Override
     public void Show(PrintStream out)
     {
-        out.println("something");
+        out.println("Full Name: " + fullName);
+        out.println("Email: " + email);
+        out.println("Phone: " + phone);
     }
     
-    @Override
-    public void Update(PrintStream out, InputStream in)
+    private void selfValidation() throws Exception
     {
-        fullName = UpdatedString("Full Name: ", fullName);
-        email    = UpdatedString("Email:     ", email);
-        phone    = UpdatedString("Phone:     ", phone);
-        // TODO: Add checking phone format
+        if (!Pattern.matches("^\\+?\\d+$", phone)) {
+            throw new Exception("Phone number does not match regex: ^+?\\d+$");
+        } 
     }
 
     @Override
-    public void New()
+    public void Update() throws Exception
     {
+        fullName = UpdatedString("Full Name:", fullName);
+        email    = UpdatedString("Email:    ", email);
+        phone    = UpdatedString("Phone:    ", phone);
+        selfValidation();
+    }
 
+    @Override
+    public void New() throws Exception
+    {
+        fullName = CreatedString("Full name: ");
+        email    = CreatedString("Email: ");
+        phone    = CreatedString("Phone: ");
+        selfValidation();
+    }
+
+    @Override
+    public void dbValidation(DbStore ds) throws Exception {
+        // Nothing here for now
     }
 }

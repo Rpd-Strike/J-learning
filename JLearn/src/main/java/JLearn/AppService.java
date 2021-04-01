@@ -1,6 +1,8 @@
 package JLearn;
 
 import Database.DbContext;
+import Exceptions.InputException;
+import Workers.IO;
 import Workers.Interactor;
 
 public final class AppService {
@@ -34,6 +36,28 @@ public final class AppService {
     {
         interactor = Interactor.getInstance();
 
-        System.out.println("app is running!");
+        Boolean toStop = false;
+        
+        while (!toStop) {
+            try {
+                if (args.length > 0) {
+                    toStop = false;
+                    interactor.runQuery(args, db.getData());
+                }
+                else {
+                    toStop = interactor.Interact(db.getData());
+                }
+            }
+            catch (InputException e) {
+                System.out.println(" Operation aborted: " + e.getMessage());
+            }
+            catch (Exception e) {
+                System.out.println(" Exception during query!");
+                System.out.println("   Err: " + e.toString());
+            }
+        }
+        
+
+        db.Save();
     }
 }

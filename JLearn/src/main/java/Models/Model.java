@@ -1,27 +1,27 @@
 package Models;
 
-import java.io.InputStream;
 import java.io.PrintStream;
-// import java.util.Scanner;
 
+import Database.DbStore;
 import Workers.IO;
 
 public abstract class Model implements Comparable<Model> {
     public abstract String getKey();
 
+    public abstract String ModelName();
+
     protected abstract void Show(PrintStream out);
     
-    protected abstract void Update(PrintStream out, InputStream in);
+    public abstract void Update() throws Exception;
 
-    public abstract void New();
-    
+    public abstract void New() throws Exception;
+
     /**
-     * Using Stdin/out, update the object
-     */ 
-    public void Update()
-    {
-        Update(System.out, System.in);
-    }    
+     * Checks if model is consistent with regard to other database data.
+     * If something is bad throws Exception
+     * @param ds
+     */
+    public abstract void dbValidation(DbStore ds) throws Exception;
     
     public int compareTo(Model oth)
     {
@@ -33,7 +33,7 @@ public abstract class Model implements Comparable<Model> {
         Show(System.out);
     }
 
-    public String UpdatedString(String keyName, String oldValue)
+    protected String UpdatedString(String keyName, String oldValue)
     {
         System.out.print(keyName + " [" + oldValue + "]: ");
         String newValue = IO.getInstance().getLine();
@@ -43,5 +43,11 @@ public abstract class Model implements Comparable<Model> {
         return newValue;
     }
 
-    // public abstract Boolean Valid(DbStore ds);
+    protected String CreatedString(String keyName)
+    {
+        System.out.print(keyName + ": ");
+        String newValue = IO.getInstance().getLine();
+
+        return newValue;
+    }
 }

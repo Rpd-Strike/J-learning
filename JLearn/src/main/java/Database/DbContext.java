@@ -25,4 +25,9 @@ public class DbContext {
     {
         return data;
     }
+
+    public void Save()
+    {
+        backend.Save(data);
+    }
 }
