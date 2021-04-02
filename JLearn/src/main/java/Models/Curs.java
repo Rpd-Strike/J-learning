@@ -3,6 +3,8 @@ package Models;
 import java.io.PrintStream;
 
 import Database.DbStore;
+import Exceptions.DeleteException;
+import JLearn.Config;
 
 public class Curs extends Model {
     private String name;
@@ -23,7 +25,7 @@ public class Curs extends Model {
 
     @Override
     public String ModelName() {
-        return "Curs";
+        return Config.StoreNames.curs;
     }
 
     @Override
@@ -58,6 +60,15 @@ public class Curs extends Model {
         // Nothing for now
     }
 
+    @Override
+    public void deleteValidation(DbStore ds) throws DeleteException {
+        for (Profesor prof : ds.profesors) {
+            if (prof.getCursuri().contains(name))
+                throw new DeleteException("Deleting <" + Config.StoreNames.curs + ">" + 
+                    " invalidates <" + Config.StoreNames.profesor + ">: '" + prof.getKey() + "'");
+        }
+    }
+    
     @Override
     public Model copyModel() {
         return new Curs(name, credits);

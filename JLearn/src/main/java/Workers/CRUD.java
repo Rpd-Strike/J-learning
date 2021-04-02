@@ -23,12 +23,12 @@ public class CRUD {
     {
         System.out.print(
             "Operations permitted on models:\n" + 
-            " - List Show all objects\n" + 
-            " - New  Create a new object\n" + 
-            " - Update <Key/Name>  Update model with the given key\n" + 
-            " - Delete <Key/Name>  Delete model with the given key\n" + 
-            " - Show <Key/Name>    Show model with the given key\n" + 
-            " - Search <Key/Name>  Tries to find objects that have similar keys to the argument\n"
+            " - List                Show all objects\n" + 
+            " - New                 Create a new object\n" + 
+            " - Update <Key/Name>   Update model with the given key\n" + 
+            " - Delete <Key/Name>   Delete model with the given key\n" + 
+            " - Show   <Key/Name>   Show model with the given key\n" + 
+            " - Search <query>  Tries to find objects that have similar keys to the query\n"
         );
     }
 
@@ -51,6 +51,12 @@ public class CRUD {
             case "List":
                 opList(container);
                 break;
+            case "Show":
+                opShow(args, container);
+                break;
+            case "Search":
+                opSearch(args, container);
+                break;
             case "New":
                 opNew(container, db);
                 break;
@@ -58,13 +64,7 @@ public class CRUD {
                 opUpdate(args, container, db);
                 break;
             case "Delete":
-                opDelete(args, container);
-                break;
-            case "Show":
-                opShow(args, container);
-                break;
-            case "Search":
-                opSearch(args, container);
+                opDelete(args, container, db);
                 break;
             default:
                 System.out.println("Command on Model not recognized ... ");
@@ -98,7 +98,11 @@ public class CRUD {
     }
 
     private <T extends Model> 
-    void opDelete(String[] args, ModelStorage<T> container) {
+    void opDelete(String[] args, ModelStorage<T> container, DbStore db) throws Exception {
+        if (args.length < 1)
+            throw new InputException("Expected a <Key/Name> argument");
+        String key = String.join(" ", args);
+        container.Delete(key, db);
     }
 
     private <T extends Model> 

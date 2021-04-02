@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import Database.DbStore;
 import Exceptions.InputException;
+import JLearn.Config;
 
 public class Profesor extends Model
 {
@@ -31,7 +32,7 @@ public class Profesor extends Model
 
     @Override
     public String ModelName() {
-        return "Profesor";
+        return Config.StoreNames.profesor;
     }
 
     @Override
@@ -84,8 +85,18 @@ public class Profesor extends Model
     }
 
     @Override
+    public void deleteValidation(DbStore ds) {
+        // Doesn't matter
+    }
+
+    @Override
     public Model copyModel()
     {
         return new Profesor(fullName, email, phone, new ArrayList<>(cursuri));
+    }
+
+    public ArrayList<String> getCursuri()
+    {
+        return cursuri;
     }
 }

@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import Database.DbStore;
+import Exceptions.DeleteException;
 import Exceptions.InputException;
 import Workers.IO;
 
@@ -19,6 +20,14 @@ public abstract class Model implements Comparable<Model> {
     public abstract void New(DbStore ds) throws Exception;
 
     public abstract Model copyModel();
+
+    /**
+     * Checks if other references to this model are valid
+     * (i.e. does all expected Models that are referenced still exist after a delete?)
+     * Throws exception if now
+     * @throws DeleteException
+     */
+    public abstract void deleteValidation(DbStore ds) throws DeleteException;
 
     /**
      * Checks if model is consistent with regard to other database data.
@@ -90,8 +99,13 @@ public abstract class Model implements Comparable<Model> {
             System.out.print("# " + cnt + ": ('null' to delete entry) [" + oldKey + "]: ");
             
             String name = io.getLine();
-            if (name.length() < 1)
+            if (name.length() < 1) {
+                newList.add(oldKey);
                 continue;
+            }
+            if (name.equals("null"))
+                continue;
+                
             if (newList.contains(name))
                 throw new InputException("Duplicate key '" + name + "' in given list!");
             
@@ -99,7 +113,7 @@ public abstract class Model implements Comparable<Model> {
         }
         while (true) {
             ++cnt;
-            System.out.print("# " + cnt + ": (Empty String to finish) []: ");
+            System.out.print("# " + cnt + ": (Empty name to finish) []: ");
 
             String name = io.getLine();
             if (name.length() < 1)

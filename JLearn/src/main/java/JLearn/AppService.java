@@ -52,7 +52,7 @@ public final class AppService {
             }
             catch (Exception e) {
                 System.out.println(" Exception during query!");
-                System.out.println("   Err: " + e.toString());
+                System.out.println("   Err: " + e.getMessage());
             }
         }
         

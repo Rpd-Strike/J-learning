@@ -3,6 +3,8 @@ package Database;
 import java.lang.reflect.Constructor;
 import java.util.TreeSet;
 
+import Exceptions.DeleteException;
+import Exceptions.InputException;
 import Models.Model;
 
 public class ModelStorage <T extends Model>
@@ -14,6 +16,26 @@ public class ModelStorage <T extends Model>
     {
         container = new TreeSet<T>();
         ctor = clazz.getDeclaredConstructor();
+    }
+
+    public void Delete(String key, DbStore db) throws Exception
+    {
+        T obj = strictSearch(key);
+        if (obj == null) {
+            throw new DeleteException("<" + ModelName() + "> by key <" +
+                key + "> doesn't exist!");
+        }
+        try {
+            if (!container.remove(obj)) 
+                throw new InputException("Did not find <" + ModelName() + 
+                    "> by key <" + key + ">");
+            obj.deleteValidation(db);
+        }
+        catch (Exception e)
+        {
+            container.add(obj);
+            throw new Exception("  Delete failed: " + e.getMessage());
+        }
     }
 
     public TreeSet<T> getContainer() {

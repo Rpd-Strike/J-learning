@@ -3,13 +3,14 @@ package Database;
 import java.util.HashMap;
 import java.util.TreeSet;
 
+import JLearn.Config;
 import Models.Curs;
 import Models.Model;
 import Models.Profesor;
 
 public class DbStore
 {
-    public final HashMap<String, ModelStorage<? extends Model>> storage;
+    private final HashMap<String, ModelStorage<? extends Model>> storage;
 
     public final TreeSet<Profesor> profesors;
     public final TreeSet<Curs> cursuri;
@@ -24,8 +25,8 @@ public class DbStore
         profesors = storeProfesors.getContainer();
         cursuri = storeCursuri.getContainer();
 
-        storage.put("profesor", storeProfesors);
-        storage.put("curs", storeCursuri);
+        storage.put(Config.StoreNames.profesor, storeProfesors);
+        storage.put(Config.StoreNames.curs, storeCursuri);
     }
 
     public void insertData(DbStore otherData) throws Exception

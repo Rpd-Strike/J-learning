@@ -44,17 +44,17 @@ public class Interactor {
                 IO.getInstance().clearScreen();
                 return false;
             case "models":
-                for (String model : dbStore.storage.keySet())
+                for (String model : dbStore.getAllData().keySet())
                     System.out.println(" " + model);
                 return false;
             case "queries":
                 System.out.println("Nothing for now :)");
                 return false;
         }
-        for (String model : dbStore.storage.keySet()) {
+        for (String model : dbStore.getAllData().keySet()) {
             if (model.equals(args[0])) {
                 String newArgs[] = Arrays.copyOfRange(args, 1, args.length);
-                var container = dbStore.storage.get(model);
+                var container = dbStore.getAllData().get(model);
                 CRUD.getInstance().runQuery(newArgs, dbStore, container);
                 return false;
             }
