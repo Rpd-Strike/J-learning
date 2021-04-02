@@ -8,7 +8,7 @@ import Exceptions.DeleteException;
 import Exceptions.InputException;
 import JLearn.Config;
 
-public class Grupa extends Model {
+public class Grupa extends Model<Grupa> {
     private String name;
     private ArrayList<String> students;
 
@@ -75,7 +75,7 @@ public class Grupa extends Model {
     }
 
     @Override
-    public Model copyModel() {
+    public Grupa copyModel() {
         return new Grupa(name, new ArrayList<>(students));
     }
 

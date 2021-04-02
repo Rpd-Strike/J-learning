@@ -8,7 +8,7 @@ import Models.*;
 
 public class DbStore
 {
-    private final HashMap<String, ModelStorage<? extends Model>> storage;
+    private final HashMap<String, ModelStorage<? extends Model<?>>> storage;
 
     public final TreeSet<Profesor> profesors;
     public final TreeSet<Curs> cursuri;
@@ -50,14 +50,14 @@ public class DbStore
         }
     }
 
-    public HashMap<String, ModelStorage<? extends Model>> getAllData()
+    public HashMap<String, ModelStorage<? extends Model<?>>> getAllData()
     {
         return storage;
     }
 
-    public static Boolean hasKey(TreeSet<? extends Model> models, String key) 
+    public static Boolean hasKey(TreeSet<? extends Model<?>> models, String key) 
     {
-        for (Model obj : models) {
+        for (Model<?> obj : models) {
             if (obj.getKey().equals(key))
                 return true;
         }

@@ -38,7 +38,7 @@ public class CRUD {
         );
     }
 
-    public <T extends Model> 
+    public <T extends Model<T>> 
     void runQuery(
         String args[],
         ModelStorage<T> container) 
@@ -73,10 +73,10 @@ public class CRUD {
                 System.out.println("Command on Model not recognized ... ");
                 showHelp();
         }
-
+        // TODO: profeosr <Model>   -- shows nothing
     }
 
-    private <T extends Model> 
+    private <T extends Model<T>> 
     void opSearch(String[] args, ModelStorage<T> container) throws InputException {
         if (args.length < 1)
             throw new InputException("Expected search query");
@@ -89,7 +89,7 @@ public class CRUD {
         }
     }
 
-    private <T extends Model> 
+    private <T extends Model<T>> 
     void opShow(String[] args, ModelStorage<T> container) throws InputException {
         if (args.length < 1)
             throw new InputException("Expected a <Key/Name> argument");
@@ -100,7 +100,7 @@ public class CRUD {
             obj.Show();
     }
 
-    private <T extends Model> 
+    private <T extends Model<T>> 
     void opDelete(String[] args, ModelStorage<T> container) throws Exception {
         if (args.length < 1)
             throw new InputException("Expected a <Key/Name> argument");
@@ -108,7 +108,7 @@ public class CRUD {
         container.Delete(key, db);
     }
 
-    private <T extends Model> 
+    private <T extends Model<T>> 
     void opUpdate(String[] args, ModelStorage<T> container) 
     throws Exception {
         if (args.length < 1)
@@ -117,7 +117,7 @@ public class CRUD {
         container.Update(key, db);
     }
 
-    private <T extends Model> 
+    private <T extends Model<T>> 
     void opNew(ModelStorage<T> container) 
     throws Exception 
     {
@@ -130,7 +130,7 @@ public class CRUD {
         container.getContainer().add(obj);
     }
 
-    private void opList(ModelStorage<? extends Model> container) {
+    private void opList(ModelStorage<? extends Model<?>> container) {
         System.out.println("");
         for (var obj : container.getContainer()) {
             obj.Show();

@@ -8,7 +8,7 @@ import Exceptions.DeleteException;
 import Exceptions.InputException;
 import JLearn.Config;
 
-public class Serie extends Model {
+public class Serie extends Model<Serie> {
     private String name;
     private ArrayList<String> groups;
 
@@ -71,7 +71,7 @@ public class Serie extends Model {
     }
 
     @Override
-    public Model copyModel() {
+    public Serie copyModel() {
         return new Serie(name, new ArrayList<>(groups));
     }
 

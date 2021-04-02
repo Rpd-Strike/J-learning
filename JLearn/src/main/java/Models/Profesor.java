@@ -8,7 +8,7 @@ import Database.DbStore;
 import Exceptions.InputException;
 import JLearn.Config;
 
-public class Profesor extends Model
+public class Profesor extends Model<Profesor>
 {
     private String fullName;
     private String email;
@@ -86,7 +86,7 @@ public class Profesor extends Model
     }
 
     @Override
-    public Model copyModel()
+    public Profesor copyModel()
     {
         return new Profesor(fullName, email, phone, new ArrayList<>(cursuri));
     }

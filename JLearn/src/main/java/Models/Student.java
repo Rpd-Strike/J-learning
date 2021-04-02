@@ -7,7 +7,7 @@ import Exceptions.DeleteException;
 import Exceptions.InputException;
 import JLearn.Config;
 
-public class Student extends Model {
+public class Student extends Model<Student> {
     private String fullName;
     private String age;
     private String bursa;
@@ -27,7 +27,7 @@ public class Student extends Model {
     }
 
     @Override
-    public Model copyModel() {
+    public Student copyModel() {
         return new Student(fullName, age, bursa);
     }
 

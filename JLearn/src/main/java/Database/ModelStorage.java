@@ -7,7 +7,7 @@ import Exceptions.DeleteException;
 import Exceptions.InputException;
 import Models.Model;
 
-public class ModelStorage <T extends Model>
+public class ModelStorage <T extends Model<T>>
 {
     private final TreeSet<T> container;
     private final Constructor<T> ctor;
@@ -45,8 +45,7 @@ public class ModelStorage <T extends Model>
             throw new Exception("<" + ModelName() + "> by key <" +
                 key + "> doesn't exist!");
         }
-        @SuppressWarnings("unchecked")
-        T copie = (T) obj.copyModel();
+        T copie = obj.copyModel();
         try {
             obj.Update(db);
         }

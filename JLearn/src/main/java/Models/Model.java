@@ -9,12 +9,12 @@ import Exceptions.DeleteException;
 import Exceptions.InputException;
 import Workers.IO;
 
-public abstract class Model implements Comparable<Model> {
+public abstract class Model<M extends Model<M>> implements Comparable<Model<M>> {
     public abstract String ModelName();
 
     public abstract String getKey();
     
-    public abstract Model copyModel();
+    public abstract M copyModel();
 
     protected abstract void Show(PrintStream out);
 
@@ -76,7 +76,7 @@ public abstract class Model implements Comparable<Model> {
         } 
     }
 
-    public int compareTo(Model oth)
+    public int compareTo(Model<M> oth)
     {
         return getKey().compareTo(oth.getKey());
     }    

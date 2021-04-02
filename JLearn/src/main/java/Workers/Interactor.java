@@ -3,7 +3,6 @@ package Workers;
 import java.util.Arrays;
 
 import Database.DbStore;
-import Models.Model;
 
 public class Interactor {
     private static Interactor instance = null;
@@ -29,7 +28,7 @@ public class Interactor {
         );
     }
 
-    public <T extends Model> Boolean runQuery(String[] args, DbStore dbStore) 
+    public Boolean runQuery(String[] args, DbStore dbStore) 
     throws Exception
     {
         if (args.length < 1)
