@@ -41,7 +41,7 @@ public class Grupa extends Model {
 
     @Override
     protected void Update() throws InputException {
-        name = UpdatedString("Grupa:", name);
+        System.out.println("Grupa: " + name);
         students = UpdatedList("Students:", students);
     }
 
@@ -67,7 +67,11 @@ public class Grupa extends Model {
 
     @Override
     public void deleteValidation(DbStore ds) throws DeleteException {
-        // TODO: Serie gets invalidated
+        for (Serie ser : ds.series) {
+            if (ser.getGroups().contains(name))
+                throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.grupa + ">" + 
+                    " invalidates <" + Config.StoreNames.serie + ">: '" + ser.getKey() + "'");
+        }
     }
 
     @Override

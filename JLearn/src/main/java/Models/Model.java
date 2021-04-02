@@ -61,7 +61,6 @@ public abstract class Model implements Comparable<Model> {
     public void Update(DbStore ds) 
     throws Exception
     {
-        deleteValidation(ds);
         Update();
         selfValidation();
         dbValidation(ds);

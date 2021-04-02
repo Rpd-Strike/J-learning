@@ -43,7 +43,7 @@ public class Curs extends Model {
 
     @Override
     public void Update() throws InputException {
-        name = UpdatedString("Course name", name);
+        System.out.println("Course name: " + name);
         credits = Integer.parseInt(
                UpdatedString("Credits    ", Integer.toString(credits)));
     }
@@ -63,7 +63,7 @@ public class Curs extends Model {
     public void deleteValidation(DbStore ds) throws DeleteException {
         for (Profesor prof : ds.profesors) {
             if (prof.getCursuri().contains(name))
-                throw new DeleteException("Deleting <" + Config.StoreNames.curs + ">" + 
+                throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.curs + ">" + 
                     " invalidates <" + Config.StoreNames.profesor + ">: '" + prof.getKey() + "'");
         }
     }

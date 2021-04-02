@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.TreeSet;
 
 import JLearn.Config;
-import Models.Curs;
 import Models.*;
 
 public class DbStore
@@ -16,6 +15,7 @@ public class DbStore
     public final TreeSet<Student> students;
     public final TreeSet<Enrollment> enrollments;
     public final TreeSet<Grupa> groups;
+    public final TreeSet<Serie> series;
 
     // Package-private access constructor
     DbStore() throws NoSuchMethodException, SecurityException {
@@ -26,18 +26,21 @@ public class DbStore
         var storeStudents = new ModelStorage<Student>(Student.class);
         var storeEnrollments = new ModelStorage<Enrollment>(Enrollment.class);
         var storeGroups = new ModelStorage<Grupa>(Grupa.class);
+        var storeSeries = new ModelStorage<Serie>(Serie.class);
         
         profesors = storeProfesors.getContainer();
         cursuri = storeCursuri.getContainer();
         students = storeStudents.getContainer();
         enrollments = storeEnrollments.getContainer();
         groups = storeGroups.getContainer();
+        series = storeSeries.getContainer();
 
         storage.put(Config.StoreNames.profesor, storeProfesors);
         storage.put(Config.StoreNames.curs, storeCursuri);
         storage.put(Config.StoreNames.student, storeStudents);
         storage.put(Config.StoreNames.enrollment, storeEnrollments);
         storage.put(Config.StoreNames.grupa, storeGroups);
+        storage.put(Config.StoreNames.serie, storeSeries);
     }
 
     public void insertData(DbStore otherData) throws Exception

@@ -38,6 +38,25 @@ public class ModelStorage <T extends Model>
         }
     }
 
+    public void Update(String key, DbStore db) throws Exception
+    {
+        T obj = strictSearch(key);
+        if (obj == null) {
+            throw new Exception("<" + ModelName() + "> by key <" +
+                key + "> doesn't exist!");
+        }
+        @SuppressWarnings("unchecked")
+        T copie = (T) obj.copyModel();
+        try {
+            obj.Update(db);
+        }
+        catch (Exception e) {
+            container.remove(obj);
+            container.add(copie);
+            throw e;
+        }
+    }
+
     public TreeSet<T> getContainer() {
         return container;
     }

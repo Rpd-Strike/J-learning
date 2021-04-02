@@ -79,7 +79,7 @@ public class Enrollment extends Model {
 
     @Override
     public void Update() throws InputException {
-        key        = UpdatedString("Key:    ", key);
+        System.out.println("Key:     " + key);
         studentKey = UpdatedString("Student:", studentKey);
         cursKey    = UpdatedString("Curs:   ", cursKey);
         status     = UpdatedString("Status: ", status);

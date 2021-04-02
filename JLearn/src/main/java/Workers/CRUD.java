@@ -114,21 +114,7 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected name of model");
         String key = String.join(" ", args);
-        Model obj = container.strictSearch(key);
-        if (obj == null) {
-            System.out.println("Did not find <" + container.ModelName() + "> by key <" + key + ">");
-            return ;
-        }
-
-        Model copie = obj.copyModel();
-        copie.Update(db);
-        // Check if Key already exists
-        if (!copie.getKey().equals(obj.getKey())) {
-            if (DbStore.hasKey(container.getContainer(), copie.getKey()))
-                throw new InputException("Key <" + copie.getKey() + 
-                    "> already exists for model <" + copie.ModelName() + ">");
-        }
-        obj = copie;      
+        container.Update(key, db);
     }
 
     private <T extends Model> 

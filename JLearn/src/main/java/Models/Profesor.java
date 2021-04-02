@@ -50,7 +50,7 @@ public class Profesor extends Model
     @Override
     public void Update() throws InputException
     {
-        fullName = UpdatedString("Full Name:", fullName);
+        System.out.println("Full Name: " + fullName);
         email    = UpdatedString("Email:    ", email);
         phone    = UpdatedString("Phone:    ", phone);
         cursuri  = UpdatedList("Cursuri", cursuri);
