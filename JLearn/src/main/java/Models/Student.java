@@ -70,6 +70,16 @@ public class Student extends Model {
 
     @Override
     public void deleteValidation(DbStore ds) throws DeleteException {
-        // TODO: Enrollment and Group depends on this
+        for (Enrollment enr : ds.enrollments) {
+            if (enr.getKey().equals(fullName))
+                throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.student + ">" + 
+                    " invalidates <" + Config.StoreNames.enrollment + ">: '" + enr.getKey() + "'");
+        }
+
+        for (Grupa grupa : ds.groups)
+            for (String std : grupa.getStudents())
+                if (std.equals(fullName))
+                    throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.student + ">" + 
+                        " invalidates <" + Config.StoreNames.grupa + ">: '" + grupa.getKey() + "'");
     }
 }

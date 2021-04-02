@@ -97,4 +97,14 @@ public class Enrollment extends Model {
             grade
         );
     }
+
+    public String getStudent()
+    {
+        return studentKey;
+    }
+
+    public String getCurs()
+    {
+        return cursKey;
+    }
 }

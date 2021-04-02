@@ -47,13 +47,6 @@ public class Profesor extends Model
         }
     }
     
-    protected void selfValidation() throws Exception
-    {
-        if (!Pattern.matches("^\\+?\\d+$", phone)) {
-            throw new Exception("Phone number does not match regex: ^\\+?\\d+$");
-        } 
-    }
-
     @Override
     public void Update() throws InputException
     {
@@ -62,7 +55,7 @@ public class Profesor extends Model
         phone    = UpdatedString("Phone:    ", phone);
         cursuri  = UpdatedList("Cursuri", cursuri);
     }
-
+    
     @Override
     public void New() throws InputException
     {
@@ -71,7 +64,14 @@ public class Profesor extends Model
         phone    = CreatedString("Phone");
         cursuri  = CreatedList("Cursuri");
     }
-
+    
+    protected void selfValidation() throws Exception
+    {
+        if (!Pattern.matches("^\\+?\\d+$", phone)) {
+            throw new Exception("Phone number does not match regex: ^\\+?\\d+$");
+        } 
+    }
+    
     @Override
     public void dbValidation(DbStore ds) throws Exception {
         for (String curs : cursuri) {

@@ -61,6 +61,7 @@ public abstract class Model implements Comparable<Model> {
     public void Update(DbStore ds) 
     throws Exception
     {
+        deleteValidation(ds);
         Update();
         selfValidation();
         dbValidation(ds);
@@ -140,6 +141,8 @@ public abstract class Model implements Comparable<Model> {
             
             String name = io.getLine();
             if (name.length() < 1) {
+                if (newList.contains(oldKey))
+                    throw new InputException("Duplicate key '" + oldKey + "' in given list!");
                 newList.add(oldKey);
                 continue;
             }
