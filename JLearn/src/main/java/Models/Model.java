@@ -7,7 +7,7 @@ import Database.DbStore;
 import Exceptions.InputException;
 import Workers.IO;
 
-public abstract class Model implements Cloneable, Comparable<Model> {
+public abstract class Model implements Comparable<Model> {
     public abstract String getKey();
 
     public abstract String ModelName();
@@ -17,6 +17,8 @@ public abstract class Model implements Cloneable, Comparable<Model> {
     public abstract void Update(DbStore ds) throws Exception;
 
     public abstract void New(DbStore ds) throws Exception;
+
+    public abstract Model copyModel();
 
     /**
      * Checks if model is consistent with regard to other database data.
@@ -85,7 +87,7 @@ public abstract class Model implements Cloneable, Comparable<Model> {
         int cnt = 0;
         for (String oldKey : old) {
             ++cnt;
-            System.out.print("# " + cnt + " (Empty String to delete entry) [" + oldKey + "]: ");
+            System.out.print("# " + cnt + ": ('null' to delete entry) [" + oldKey + "]: ");
             
             String name = io.getLine();
             if (name.length() < 1)
@@ -97,7 +99,7 @@ public abstract class Model implements Cloneable, Comparable<Model> {
         }
         while (true) {
             ++cnt;
-            System.out.print("# " + cnt + " (Empty String to delete entry) []: ");
+            System.out.print("# " + cnt + ": (Empty String to finish) []: ");
 
             String name = io.getLine();
             if (name.length() < 1)

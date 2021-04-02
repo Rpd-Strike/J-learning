@@ -79,13 +79,13 @@ public class Profesor extends Model
     public void dbValidation(DbStore ds) throws Exception {
         for (String curs : cursuri) {
             if (!DbStore.hasKey(ds.cursuri, curs))
-                throw new InputException("Did not find a <" + ModelName() + 
-                    "> model with key <" + curs + ">");
+                throw new InputException("Did not find a <Curs> model with key <" + curs + ">");
         }
     }
 
     @Override
-    public Object clone() {
+    public Model copyModel()
+    {
         return new Profesor(fullName, email, phone, new ArrayList<>(cursuri));
     }
 }

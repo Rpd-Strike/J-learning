@@ -107,13 +107,21 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected name of model");
         String key = String.join(" ", args);
-        T obj = container.strictSearch(key);
+        Model obj = container.strictSearch(key);
         if (obj == null) {
             System.out.println("Did not find <" + container.ModelName() + "> by key <" + key + ">");
             return ;
         }
-        
-        obj.Update(ds);
+
+        Model copie = obj.copyModel();
+        try {
+            obj.Update(ds);
+        }
+        catch (Exception e)
+        {
+            obj = copie.copyModel();
+            throw e;
+        }
     }
 
     private <T extends Model> 

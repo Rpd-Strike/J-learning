@@ -57,4 +57,9 @@ public class Curs extends Model {
     public void dbValidation(DbStore ds) throws Exception {
         // Nothing for now
     }
+
+    @Override
+    public Model copyModel() {
+        return new Curs(name, credits);
+    }
 }
