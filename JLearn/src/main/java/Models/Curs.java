@@ -39,7 +39,7 @@ public class Curs extends Model {
     }
 
     @Override
-    public void Update() throws Exception {
+    public void Update(DbStore ds) throws Exception {
         name = UpdatedString("Course name", name);
         credits = Integer.parseInt(
                UpdatedString("Credits    ", Integer.toString(credits)));
@@ -47,10 +47,9 @@ public class Curs extends Model {
     }
 
     @Override
-    public void New() throws Exception {
-        name = CreatedString("Course name");
-        credits = Integer.parseInt(
-            CreatedString("Credits"));
+    public void New(DbStore ds) throws Exception {
+        name    =                  CreatedString("Course name");
+        credits = Integer.parseInt(CreatedString("Credits"));
         selfValidation();    
     }
 

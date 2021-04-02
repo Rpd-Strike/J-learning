@@ -1,10 +1,6 @@
 package Workers;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.TreeSet;
 
 import Database.DbStore;
 import Database.ModelStorage;
@@ -56,10 +52,10 @@ public class CRUD {
                 opList(container);
                 break;
             case "New":
-                opNew(container);
+                opNew(container, db);
                 break;
             case "Update":
-                opUpdate(args, container);
+                opUpdate(args, container, db);
                 break;
             case "Delete":
                 opDelete(args, container);
@@ -82,6 +78,12 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected search query");
         String key = String.join(" ", args);
+        for (T obj : container.getContainer()) {
+            if (obj.getKey().contains(key)) {
+                obj.Show();
+                System.out.println("");
+            }
+        }
     }
 
     private <T extends Model> 
@@ -100,7 +102,7 @@ public class CRUD {
     }
 
     private <T extends Model> 
-    void opUpdate(String[] args, ModelStorage<T> container) 
+    void opUpdate(String[] args, ModelStorage<T> container, DbStore ds) 
     throws Exception {
         if (args.length < 1)
             throw new InputException("Expected name of model");
@@ -111,15 +113,15 @@ public class CRUD {
             return ;
         }
         
-        obj.Update();
+        obj.Update(ds);
     }
 
     private <T extends Model> 
-    void opNew(ModelStorage<T> container) 
+    void opNew(ModelStorage<T> container, DbStore ds) 
     throws Exception 
     {
         var obj = container.getCtor().newInstance();
-        obj.New();
+        obj.New(ds);
         obj.dbValidation(db);
         container.getContainer().add(obj);
     }

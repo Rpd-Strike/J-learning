@@ -39,4 +39,13 @@ public class DbStore
     {
         return storage;
     }
+
+    public static Boolean hasKey(TreeSet<? extends Model> models, String key) 
+    {
+        for (Model obj : models) {
+            if (obj.getKey().equals(key))
+                return true;
+        }
+        return false;
+    }
 }
