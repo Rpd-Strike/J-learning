@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import Database.DbStore;
@@ -10,6 +11,7 @@ public class Profesor extends Model
     private String fullName;
     private String email;
     private String phone;
+    private ArrayList<String> cursuri;
 
     public Profesor() { }
 
@@ -18,6 +20,7 @@ public class Profesor extends Model
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
+        this.cursuri = new ArrayList<>();
     }
 
     @Override
@@ -41,7 +44,7 @@ public class Profesor extends Model
     private void selfValidation() throws Exception
     {
         if (!Pattern.matches("^\\+?\\d+$", phone)) {
-            throw new Exception("Phone number does not match regex: ^+?\\d+$");
+            throw new Exception("Phone number does not match regex: ^\\+?\\d+$");
         } 
     }
 

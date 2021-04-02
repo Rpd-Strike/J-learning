@@ -6,10 +6,10 @@ import Workers.IO;
 import Workers.Interactor;
 
 public final class AppService {
-    static private AppService instance = null;
+    private static AppService instance = null;
 
-    DbContext db;
-    Interactor interactor;
+    private DbContext db;
+    private Interactor interactor;
 
     public static AppService getInstance()
     {

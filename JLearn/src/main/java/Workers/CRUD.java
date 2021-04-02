@@ -78,7 +78,10 @@ public class CRUD {
     }
 
     private <T extends Model> 
-    void opSearch(String[] args, ModelStorage<T> container) {
+    void opSearch(String[] args, ModelStorage<T> container) throws InputException {
+        if (args.length < 1)
+            throw new InputException("Expected search query");
+        String key = String.join(" ", args);
     }
 
     private <T extends Model> 

@@ -7,7 +7,13 @@ public class Config {
     {
         IN_MEMORY,
         // CSV_FILE,
-        // JDBC
+        // JDBC,
+    }
+
+    public enum EnvType
+    {
+        PROD,
+        TEST,
     }
 
     public static final DbType  dbType = DbType.IN_MEMORY;
