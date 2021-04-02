@@ -39,15 +39,15 @@ public class Profesor extends Model
     public void Show(PrintStream out)
     {
         out.println("Full Name: " + fullName);
-        out.println("Email: " + email);
-        out.println("Phone: " + phone);
-        out.println("Cursuri [" + cursuri.size() + "]:");
+        out.println("Email:     " + email);
+        out.println("Phone:     " + phone);
+        out.println("Cursuri  [" + cursuri.size() + "]:");
         for (String c : cursuri) {
             System.out.println("  - " + c);
         }
     }
     
-    private void selfValidation() throws Exception
+    protected void selfValidation() throws Exception
     {
         if (!Pattern.matches("^\\+?\\d+$", phone)) {
             throw new Exception("Phone number does not match regex: ^\\+?\\d+$");
@@ -55,25 +55,21 @@ public class Profesor extends Model
     }
 
     @Override
-    public void Update(DbStore ds) throws Exception
+    public void Update() throws InputException
     {
         fullName = UpdatedString("Full Name:", fullName);
         email    = UpdatedString("Email:    ", email);
         phone    = UpdatedString("Phone:    ", phone);
         cursuri  = UpdatedList("Cursuri", cursuri);
-        selfValidation();
-        dbValidation(ds);
     }
 
     @Override
-    public void New(DbStore ds) throws Exception
+    public void New() throws InputException
     {
         fullName = CreatedString("Full name");
         email    = CreatedString("Email");
         phone    = CreatedString("Phone");
         cursuri  = CreatedList("Cursuri");
-        selfValidation();
-        dbValidation(ds);
     }
 
     @Override

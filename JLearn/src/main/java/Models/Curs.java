@@ -4,6 +4,7 @@ import java.io.PrintStream;
 
 import Database.DbStore;
 import Exceptions.DeleteException;
+import Exceptions.InputException;
 import JLearn.Config;
 
 public class Curs extends Model {
@@ -34,25 +35,23 @@ public class Curs extends Model {
         out.println("Credits:     " + credits);
     }
 
-    private void selfValidation() throws Exception
-    {
+    @Override
+    protected void selfValidation() throws Exception {
         if (credits < 1)
             throw new Exception("The course has to be worth at least 1 credit!");
     }
 
     @Override
-    public void Update(DbStore ds) throws Exception {
+    public void Update() throws InputException {
         name = UpdatedString("Course name", name);
         credits = Integer.parseInt(
                UpdatedString("Credits    ", Integer.toString(credits)));
-        selfValidation();
     }
 
     @Override
-    public void New(DbStore ds) throws Exception {
+    public void New() throws InputException {
         name    =                  CreatedString("Course name");
-        credits = Integer.parseInt(CreatedString("Credits"));
-        selfValidation();    
+        credits = Integer.parseInt(CreatedString("Credits"));    
     }
 
     @Override

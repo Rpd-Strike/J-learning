@@ -2,6 +2,7 @@ package Models;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import Database.DbStore;
 import Exceptions.DeleteException;
@@ -9,17 +10,35 @@ import Exceptions.InputException;
 import Workers.IO;
 
 public abstract class Model implements Comparable<Model> {
-    public abstract String getKey();
-
     public abstract String ModelName();
 
-    protected abstract void Show(PrintStream out);
+    public abstract String getKey();
     
-    public abstract void Update(DbStore ds) throws Exception;
-
-    public abstract void New(DbStore ds) throws Exception;
-
     public abstract Model copyModel();
+
+    protected abstract void Show(PrintStream out);
+
+    protected abstract void New() 
+    throws InputException;
+
+    protected abstract void Update() 
+    throws InputException;
+
+    /**
+     * Checks if what the user typed in console is valid
+     * (Probably will check some regex rules)
+     * @throws Exception
+     */
+    protected abstract void selfValidation() 
+    throws Exception;  // TODO: New ValidationException
+
+    /**
+     * Checks if model is consistent with regard to other database data.
+     * If something is bad throws Exception
+     * @param ds
+     */
+    public abstract void dbValidation(DbStore ds) 
+    throws Exception;  // TODO: New ValidationException
 
     /**
      * Checks if other references to this model are valid
@@ -27,15 +46,36 @@ public abstract class Model implements Comparable<Model> {
      * Throws exception if now
      * @throws DeleteException
      */
-    public abstract void deleteValidation(DbStore ds) throws DeleteException;
+    public abstract void deleteValidation(DbStore ds) 
+    throws DeleteException;
 
-    /**
-     * Checks if model is consistent with regard to other database data.
-     * If something is bad throws Exception
-     * @param ds
-     */
-    public abstract void dbValidation(DbStore ds) throws Exception;
+
+    public void New(DbStore ds) 
+    throws Exception
+    {
+        New();
+        selfValidation();
+        dbValidation(ds);
+    };
+
+    public void Update(DbStore ds) 
+    throws Exception
+    {
+        Update();
+        selfValidation();
+        dbValidation(ds);
+    }
+
     
+    
+    protected void expectRegex(String field, String value, String regex) 
+    throws Exception
+    {
+        if (!Pattern.matches(regex, value)) {
+            throw new Exception("Expected field <" + field + "> to validate regex: " + regex);
+        } 
+    }
+
     public int compareTo(Model oth)
     {
         return getKey().compareTo(oth.getKey());

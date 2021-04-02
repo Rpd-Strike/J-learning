@@ -1,6 +1,7 @@
 package JLearn;
 
 import Database.DbContext;
+import Database.DbStore;
 import Exceptions.InputException;
 import Workers.Interactor;
 
@@ -58,5 +59,10 @@ public final class AppService {
         
 
         db.Save();
+    }
+
+    public DbStore getDbStore()
+    {
+        return db.getData();
     }
 }

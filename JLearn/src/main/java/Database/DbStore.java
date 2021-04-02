@@ -5,8 +5,7 @@ import java.util.TreeSet;
 
 import JLearn.Config;
 import Models.Curs;
-import Models.Model;
-import Models.Profesor;
+import Models.*;
 
 public class DbStore
 {
@@ -14,6 +13,8 @@ public class DbStore
 
     public final TreeSet<Profesor> profesors;
     public final TreeSet<Curs> cursuri;
+    public final TreeSet<Student> students;
+    public final TreeSet<Enrollment> enrollments;
 
     // Package-private access constructor
     DbStore() throws NoSuchMethodException, SecurityException {
@@ -21,12 +22,18 @@ public class DbStore
 
         var storeProfesors = new ModelStorage<Profesor>(Profesor.class);
         var storeCursuri = new ModelStorage<Curs>(Curs.class);
+        var storeStudents = new ModelStorage<Student>(Student.class);
+        var storeEnrollments = new ModelStorage<Enrollment>(Enrollment.class);
         
         profesors = storeProfesors.getContainer();
         cursuri = storeCursuri.getContainer();
+        students = storeStudents.getContainer();
+        enrollments = storeEnrollments.getContainer();
 
         storage.put(Config.StoreNames.profesor, storeProfesors);
         storage.put(Config.StoreNames.curs, storeCursuri);
+        storage.put(Config.StoreNames.student, storeStudents);
+        storage.put(Config.StoreNames.enrollment, storeEnrollments);
     }
 
     public void insertData(DbStore otherData) throws Exception

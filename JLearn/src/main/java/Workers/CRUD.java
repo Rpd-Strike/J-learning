@@ -5,12 +5,18 @@ import java.util.Arrays;
 import Database.DbStore;
 import Database.ModelStorage;
 import Exceptions.InputException;
+import JLearn.AppService;
 import Models.Model;
 
 public class CRUD {
     private static CRUD instance = null;
 
     private DbStore db;
+
+    private CRUD()
+    {
+        db = AppService.getInstance().getDbStore();
+    }
 
     public static CRUD getInstance()
     {
@@ -34,13 +40,10 @@ public class CRUD {
 
     public <T extends Model> 
     void runQuery(
-        String args[], 
-        DbStore db,
+        String args[],
         ModelStorage<T> container) 
     throws Exception
     {
-        this.db = db;
-
         if (args.length < 1) {
             showHelp();
             return ;
@@ -58,13 +61,13 @@ public class CRUD {
                 opSearch(args, container);
                 break;
             case "New":
-                opNew(container, db);
+                opNew(container);
                 break;
             case "Update":
-                opUpdate(args, container, db);
+                opUpdate(args, container);
                 break;
             case "Delete":
-                opDelete(args, container, db);
+                opDelete(args, container);
                 break;
             default:
                 System.out.println("Command on Model not recognized ... ");
@@ -98,7 +101,7 @@ public class CRUD {
     }
 
     private <T extends Model> 
-    void opDelete(String[] args, ModelStorage<T> container, DbStore db) throws Exception {
+    void opDelete(String[] args, ModelStorage<T> container) throws Exception {
         if (args.length < 1)
             throw new InputException("Expected a <Key/Name> argument");
         String key = String.join(" ", args);
@@ -106,7 +109,7 @@ public class CRUD {
     }
 
     private <T extends Model> 
-    void opUpdate(String[] args, ModelStorage<T> container, DbStore ds) 
+    void opUpdate(String[] args, ModelStorage<T> container) 
     throws Exception {
         if (args.length < 1)
             throw new InputException("Expected name of model");
@@ -118,23 +121,26 @@ public class CRUD {
         }
 
         Model copie = obj.copyModel();
-        try {
-            obj.Update(ds);
+        copie.Update(db);
+        // Check if Key already exists
+        if (!copie.getKey().equals(obj.getKey())) {
+            if (DbStore.hasKey(container.getContainer(), copie.getKey()))
+                throw new InputException("Key <" + copie.getKey() + 
+                    "> already exists for model <" + copie.ModelName() + ">");
         }
-        catch (Exception e)
-        {
-            obj = copie.copyModel();
-            throw e;
-        }
+        obj = copie;      
     }
 
     private <T extends Model> 
-    void opNew(ModelStorage<T> container, DbStore ds) 
+    void opNew(ModelStorage<T> container) 
     throws Exception 
     {
         var obj = container.getCtor().newInstance();
-        obj.New(ds);
-        obj.dbValidation(db);
+        obj.New(db);
+        if (db.getAllData().get(obj.ModelName()).getContainer().contains(obj)) {
+            throw new Exception("<" + obj.ModelName() + 
+                "> already contains key '" + obj.getKey() + "'");
+        }
         container.getContainer().add(obj);
     }
 

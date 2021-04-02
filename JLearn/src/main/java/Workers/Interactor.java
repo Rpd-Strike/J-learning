@@ -55,7 +55,7 @@ public class Interactor {
             if (model.equals(args[0])) {
                 String newArgs[] = Arrays.copyOfRange(args, 1, args.length);
                 var container = dbStore.getAllData().get(model);
-                CRUD.getInstance().runQuery(newArgs, dbStore, container);
+                CRUD.getInstance().runQuery(newArgs, container);
                 return false;
             }
         }
