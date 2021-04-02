@@ -86,7 +86,7 @@ public class Profesor extends Model
 
     @Override
     public void deleteValidation(DbStore ds) {
-        // Doesn't matter
+        // Nimic nu depinde de profesor   (  :))  )
     }
 
     @Override
