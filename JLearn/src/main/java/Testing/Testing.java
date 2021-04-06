@@ -2,6 +2,10 @@ package Testing;
 
 import JLearn.Config.EnvType;
 
+/**
+ * Work in progress, just ignore what is here
+ */
+
 public class Testing {
     private static Testing instance = null;
 

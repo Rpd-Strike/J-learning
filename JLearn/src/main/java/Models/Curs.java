@@ -36,7 +36,7 @@ public class Curs extends Model<Curs> {
     }
 
     @Override
-    protected void selfValidation() throws Exception {
+    public void selfValidation() throws Exception {
         if (credits < 1)
             throw new Exception("The course has to be worth at least 1 credit!");
     }
@@ -61,10 +61,20 @@ public class Curs extends Model<Curs> {
 
     @Override
     public void deleteValidation(DbStore ds) throws DeleteException {
-        for (Profesor prof : ds.profesors) {
+        for (Profesor prof : ds.getProfesors()) {
             if (prof.getCursuri().contains(name))
                 throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.curs + ">" + 
                     " invalidates <" + Config.StoreNames.profesor + ">: '" + prof.getKey() + "'");
+        }
+        for (Quiz quiz : ds.getQuizes()) {
+            if (quiz.getCursKey().equals(name))
+                throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.curs + ">" + 
+                    " invalidates <" + Config.StoreNames.quiz + ">: '" + quiz.getKey() + "'");
+        }
+        for (Enrollment enr : ds.getEnrollments()) {
+            if (enr.getCurs().equals(name))
+                throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.curs + ">" + 
+                    " invalidates <" + Config.StoreNames.enrollment + ">: '" + enr.getKey() + "'");
         }
     }
     

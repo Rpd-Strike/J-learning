@@ -16,7 +16,7 @@ public class DbContext {
         backend = DbBackend.newBackend(type);
         // Populate with mock data first
         if (Config.useMockData)
-            data.insertData(Factory.simpleMockData());
+            Factory.addMockData(data);
         // Depending on backend, load from file / JDBC / do nothing
         backend.Initialize(data);
     }

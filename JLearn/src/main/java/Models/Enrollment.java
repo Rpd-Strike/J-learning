@@ -42,9 +42,9 @@ public class Enrollment extends Model<Enrollment> {
 
     @Override
     public void dbValidation(DbStore ds) throws Exception {
-        if (!DbStore.hasKey(ds.cursuri, cursKey))
+        if (!DbStore.hasKey(ds.getCourses(), cursKey))
             throw new Exception("<Curs> key <" + cursKey + "> does not exists!");
-        if (!DbStore.hasKey(ds.students, studentKey))
+        if (!DbStore.hasKey(ds.getStudents(), studentKey))
             throw new Exception("<Student> key <" + studentKey + "> does not exists!");
     }
 
@@ -53,7 +53,7 @@ public class Enrollment extends Model<Enrollment> {
         // Nothing references an Enrollment
     }
 
-    protected void selfValidation() throws Exception
+    public void selfValidation() throws Exception
     {
         expectRegex("Status", status, "^Aborted|Progress|Finished$");
         expectRegex("Grade", grade, "^-|([1-9])|10$");

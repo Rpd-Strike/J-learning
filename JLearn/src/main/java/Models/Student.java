@@ -58,7 +58,7 @@ public class Student extends Model<Student> {
     }
 
     @Override
-    protected void selfValidation() throws Exception {
+    public void selfValidation() throws Exception {
         expectRegex("age", age, "^\\d+$");
         expectRegex("bursa", bursa, "^\\d+$");
     }
@@ -70,16 +70,15 @@ public class Student extends Model<Student> {
 
     @Override
     public void deleteValidation(DbStore ds) throws DeleteException {
-        for (Enrollment enr : ds.enrollments) {
+        for (Enrollment enr : ds.getEnrollments()) {
             if (enr.getKey().equals(fullName))
                 throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.student + ">" + 
                     " invalidates <" + Config.StoreNames.enrollment + ">: '" + enr.getKey() + "'");
         }
 
-        for (Grupa grupa : ds.groups)
-            for (String std : grupa.getStudents())
-                if (std.equals(fullName))
-                    throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.student + ">" + 
-                        " invalidates <" + Config.StoreNames.grupa + ">: '" + grupa.getKey() + "'");
+        for (Grupa grupa : ds.getGroups())
+            if (grupa.getStudents().contains(fullName))
+                throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.student + ">" + 
+                    " invalidates <" + Config.StoreNames.grupa + ">: '" + grupa.getKey() + "'");
     }
 }

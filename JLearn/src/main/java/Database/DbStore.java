@@ -10,45 +10,45 @@ public class DbStore
 {
     private final HashMap<String, ModelStorage<? extends Model<?>>> storage;
 
-    public final TreeSet<Profesor> profesors;
-    public final TreeSet<Curs> cursuri;
-    public final TreeSet<Student> students;
-    public final TreeSet<Enrollment> enrollments;
-    public final TreeSet<Grupa> groups;
-    public final TreeSet<Serie> series;
+    private final TreeSet<Profesor> profesors = new TreeSet<>();
+    private final TreeSet<Curs> cursuri = new TreeSet<>();
+    private final TreeSet<Student> students = new TreeSet<>();
+    private final TreeSet<Enrollment> enrollments = new TreeSet<>();
+    private final TreeSet<Grupa> groups = new TreeSet<>();
+    private final TreeSet<Serie> series = new TreeSet<>();
+    private final TreeSet<Quiz> quizes = new TreeSet<>();
+    private final TreeSet<QuizProblem> quizProblems = new TreeSet<>();
 
     // Package-private access constructor
     DbStore() throws NoSuchMethodException, SecurityException {
         storage = new HashMap<>();
-
-        var storeProfesors = new ModelStorage<Profesor>(Profesor.class);
-        var storeCursuri = new ModelStorage<Curs>(Curs.class);
-        var storeStudents = new ModelStorage<Student>(Student.class);
-        var storeEnrollments = new ModelStorage<Enrollment>(Enrollment.class);
-        var storeGroups = new ModelStorage<Grupa>(Grupa.class);
-        var storeSeries = new ModelStorage<Serie>(Serie.class);
         
-        profesors = storeProfesors.getContainer();
-        cursuri = storeCursuri.getContainer();
-        students = storeStudents.getContainer();
-        enrollments = storeEnrollments.getContainer();
-        groups = storeGroups.getContainer();
-        series = storeSeries.getContainer();
-
-        storage.put(Config.StoreNames.profesor, storeProfesors);
-        storage.put(Config.StoreNames.curs, storeCursuri);
-        storage.put(Config.StoreNames.student, storeStudents);
-        storage.put(Config.StoreNames.enrollment, storeEnrollments);
-        storage.put(Config.StoreNames.grupa, storeGroups);
-        storage.put(Config.StoreNames.serie, storeSeries);
+        storage.put(Config.StoreNames.profesor, 
+            new ModelStorage<Profesor>(Profesor.class, profesors));
+        storage.put(Config.StoreNames.curs, 
+            new ModelStorage<Curs>(Curs.class, cursuri));
+        storage.put(Config.StoreNames.student, 
+            new ModelStorage<Student>(Student.class, students));
+        storage.put(Config.StoreNames.enrollment, 
+            new ModelStorage<Enrollment>(Enrollment.class, enrollments));
+        storage.put(Config.StoreNames.grupa, 
+            new ModelStorage<Grupa>(Grupa.class, groups));
+        storage.put(Config.StoreNames.serie, 
+            new ModelStorage<Serie>(Serie.class, series));
+        storage.put(Config.StoreNames.quiz, 
+            new ModelStorage<Quiz>(Quiz.class, quizes));
+        storage.put(Config.StoreNames.quizPrbl, 
+            new ModelStorage<QuizProblem>(QuizProblem.class, quizProblems));
+        
     }
 
-    public void insertData(DbStore otherData) throws Exception
-    {
-        if (this == otherData) {
-            throw new Exception("Trying to combine one instance of <DbStore> to exactly the same <DbStore>");
-        }
-    }
+    // public void insertData(DbStore otherData) throws Exception
+    // { Work in progress
+    //     if (this == otherData) {
+    //         throw new Exception("Trying to combine one instance of <DbStore> " +
+    //             "to exactly the same <DbStore>");
+    //     }
+    // }
 
     public HashMap<String, ModelStorage<? extends Model<?>>> getAllData()
     {
@@ -62,5 +62,45 @@ public class DbStore
                 return true;
         }
         return false;
+    }
+
+    public TreeSet<Profesor> getProfesors()
+    {
+        return profesors;
+    }
+
+    public TreeSet<Curs> getCourses()
+    {
+        return cursuri;
+    }
+
+    public TreeSet<Student> getStudents()
+    {
+        return students;
+    }
+
+    public TreeSet<Enrollment> getEnrollments()
+    {
+        return enrollments;
+    }
+
+    public TreeSet<Grupa> getGroups()
+    {
+        return groups;
+    }
+
+    public TreeSet<Serie> getSeries()
+    {
+        return series;
+    }
+
+    public TreeSet<Quiz> getQuizes()
+    {
+        return quizes;
+    }
+
+    public TreeSet<QuizProblem> getQuizProblems()
+    {
+        return quizProblems;
     }
 }

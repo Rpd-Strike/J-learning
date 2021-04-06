@@ -58,7 +58,8 @@ public class Interactor {
                 return false;
             }
         }
-        // showHelp();
+        if (args[0].length() > 0)
+            showHelp();
         return false;
     }
 

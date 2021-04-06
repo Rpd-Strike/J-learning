@@ -35,7 +35,7 @@ public class Grupa extends Model<Grupa> {
         out.println("Grupa: " + name);
         out.println("Students  [" + students.size() + "]:");
         for (String s : students) {
-            System.out.println("  - " + s);
+            out.println("  - " + s);
         }
     }
 
@@ -52,14 +52,14 @@ public class Grupa extends Model<Grupa> {
     }
 
     @Override
-    protected void selfValidation() throws Exception {
+    public void selfValidation() throws Exception {
         // Nothing special
     }
 
     @Override
     public void dbValidation(DbStore ds) throws Exception {
         for (String s : students) {
-            if (!DbStore.hasKey(ds.students, s))
+            if (!DbStore.hasKey(ds.getStudents(), s))
                 throw new InputException("Did not find a <" + Config.StoreNames.student + 
                     "> model with key <" + s + ">");
         }
@@ -67,7 +67,7 @@ public class Grupa extends Model<Grupa> {
 
     @Override
     public void deleteValidation(DbStore ds) throws DeleteException {
-        for (Serie ser : ds.series) {
+        for (Serie ser : ds.getSeries()) {
             if (ser.getGroups().contains(name))
                 throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.grupa + ">" + 
                     " invalidates <" + Config.StoreNames.serie + ">: '" + ser.getKey() + "'");

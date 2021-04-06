@@ -61,7 +61,7 @@ public class CRUD {
                 opSearch(args, container);
                 break;
             case "New":
-                opNew(container);
+            opNew(container);
                 break;
             case "Update":
                 opUpdate(args, container);
@@ -73,7 +73,7 @@ public class CRUD {
                 System.out.println("Command on Model not recognized ... ");
                 showHelp();
         }
-        // TODO: profeosr <Model>   -- shows nothing
+        // TODO: profesor <Model>   -- shows nothing
     }
 
     private <T extends Model<T>> 

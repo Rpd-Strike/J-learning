@@ -65,7 +65,7 @@ public class Profesor extends Model<Profesor>
         cursuri  = CreatedList("Cursuri");
     }
     
-    protected void selfValidation() throws Exception
+    public void selfValidation() throws Exception
     {
         if (!Pattern.matches("^\\+?\\d+$", phone)) {
             throw new Exception("Phone number does not match regex: ^\\+?\\d+$");
@@ -75,7 +75,7 @@ public class Profesor extends Model<Profesor>
     @Override
     public void dbValidation(DbStore ds) throws Exception {
         for (String curs : cursuri) {
-            if (!DbStore.hasKey(ds.cursuri, curs))
+            if (!DbStore.hasKey(ds.getCourses(), curs))
                 throw new InputException("Did not find a <Curs> model with key <" + curs + ">");
         }
     }

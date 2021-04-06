@@ -52,14 +52,14 @@ public class Serie extends Model<Serie> {
     }
 
     @Override
-    protected void selfValidation() throws Exception {
+    public void selfValidation() throws Exception {
         // Nothing special
     }
 
     @Override
     public void dbValidation(DbStore ds) throws Exception {
         for (String g : groups) {
-            if (!DbStore.hasKey(ds.groups, g))
+            if (!DbStore.hasKey(ds.getGroups(), g))
                 throw new InputException("Did not find <" + Config.StoreNames.grupa + 
                     "> model with key <" + g + ">");
         }

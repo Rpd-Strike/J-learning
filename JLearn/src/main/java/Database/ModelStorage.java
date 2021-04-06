@@ -12,9 +12,17 @@ public class ModelStorage <T extends Model<T>>
     private final TreeSet<T> container;
     private final Constructor<T> ctor;
 
-    ModelStorage(Class<T> clazz) throws NoSuchMethodException, SecurityException
+    ModelStorage(Class<T> clazz) 
+    throws NoSuchMethodException, SecurityException
     {
         container = new TreeSet<T>();
+        ctor = clazz.getDeclaredConstructor();
+    }
+
+    ModelStorage(Class<T> clazz, TreeSet<T> container) 
+    throws NoSuchMethodException, SecurityException
+    {
+        this.container = container;
         ctor = clazz.getDeclaredConstructor();
     }
 

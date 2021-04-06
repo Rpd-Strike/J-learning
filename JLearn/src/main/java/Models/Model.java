@@ -29,7 +29,7 @@ public abstract class Model<M extends Model<M>> implements Comparable<Model<M>> 
      * (Probably will check some regex rules)
      * @throws Exception
      */
-    protected abstract void selfValidation() 
+    public abstract void selfValidation() 
     throws Exception;  // TODO: New ValidationException
 
     /**
