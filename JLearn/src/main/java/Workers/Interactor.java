@@ -19,12 +19,12 @@ public class Interactor {
     private void showHelp()
     {
         System.out.println(
-            "Usage: - exit  Quits the application\n" + 
-            "       - help  Displays this help message\n" + 
-            "       - models  Shows all the available <MODEL> commands\n" + 
+            "Usage: - exit     Quits the application\n" + 
+            "       - help     Displays this help message\n" + 
+            "       - models   Shows all the available <MODEL> commands\n" + 
             "       - queries  Shows all <QUERY> commands\n" +
-            "       - <MODEL> <COMMAND>  Execute Command for specific model\n" +
-            "       - <QUERY> <ARGS...>  Execute Query with given arguments"
+            "       - query <QUERY> <ARGS...>  Execute Query with given arguments\n" +
+            "       - <MODEL> <COMMAND>        Execute Command for specific model\n"
         );
     }
 
@@ -33,6 +33,7 @@ public class Interactor {
     {
         if (args.length < 1)
             return false;
+        // Basic commands
         switch (args[0]) {
             case "exit":
                 return true;
@@ -47,9 +48,13 @@ public class Interactor {
                     System.out.println(" " + model);
                 return false;
             case "queries":
-                System.out.println("Nothing for now :)");
+                Queries.getInstance().showHelp();
+                return false;
+            case "query":
+                Queries.getInstance().runQuery(Arrays.copyOfRange(args, 1, args.length), dbStore);
                 return false;
         }
+        // CRUD commands
         for (String model : dbStore.getAllData().keySet()) {
             if (model.equals(args[0])) {
                 String newArgs[] = Arrays.copyOfRange(args, 1, args.length);
@@ -58,6 +63,7 @@ public class Interactor {
                 return false;
             }
         }
+        // Query commands
         if (args[0].length() > 0)
             showHelp();
         return false;
