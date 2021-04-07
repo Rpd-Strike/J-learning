@@ -52,7 +52,8 @@ public class QuizProblem extends Model<QuizProblem> {
         answers  = UpdatedList("Answers", answers);
         if (answers.size() < 1)
             throw new InputException("Should have at least one answer");
-        String stringNumber = UpdatedString("Correct Answer (1-" + answers.size() + ")", "x");
+        String stringNumber = UpdatedString("Correct Answer (1-" + answers.size() + ")", 
+                                            Integer.toString(correct));
         if (!NumberUtils.isParsable(stringNumber)) 
             throw new InputException("Expected a number between 1 and " + answers.size());
         correct = NumberUtils.toInt(stringNumber);
@@ -65,7 +66,7 @@ public class QuizProblem extends Model<QuizProblem> {
         answers = CreatedList("Answers");
         if (answers.size() < 1)
             throw new InputException("Should have at least one answer");
-        String stringNumber = UpdatedString("Correct Answer (1-" + answers.size() + ")", "x");
+        String stringNumber = UpdatedString("Correct Answer (1-" + answers.size() + ")", "None");
         if (!NumberUtils.isParsable(stringNumber)) 
             throw new InputException("Expected a number between 1 and " + answers.size());
         correct = NumberUtils.toInt(stringNumber);

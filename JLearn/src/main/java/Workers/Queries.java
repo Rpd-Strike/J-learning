@@ -26,6 +26,7 @@ public class Queries {
         if (args.length < 1) {
             System.out.println("Expected name of query!\n  Usage:");
             showHelp();
+            return ;
         }
         switch (args[0]) {
             case "listOverview":
