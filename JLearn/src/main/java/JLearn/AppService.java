@@ -55,9 +55,11 @@ public final class AppService {
                 System.out.println(" Exception during query!");
                 System.out.println("   Err: " + e.getMessage());
             }
+            // Calling Service methods
+            db.Save();
         }
-        
 
+        // Calling Service methods
         db.Save();
     }
 
