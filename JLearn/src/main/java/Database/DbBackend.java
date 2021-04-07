@@ -17,15 +17,9 @@ public abstract class DbBackend {
             case IN_MEMORY: 
                 backend = new InMemoryBackend();
                 break;
-
-            // case CSV_FILE: 
-            //     throw new Exception("CSV File backend not implemented");
-        
-            // case JDBC:
-            //     throw new Exception("JDBC backend not implemented");
+            default:
+                throw new Exception(type.toString() + " backend not implemented!");
         }
-        if (backend == null)
-            throw new Exception("Backend is null!");
             
         return backend;
     }
