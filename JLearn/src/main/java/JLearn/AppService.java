@@ -52,7 +52,7 @@ public final class AppService {
                 System.out.println(" Operation aborted: " + e.getMessage());
             }
             catch (Exception e) {
-                System.out.println(" Exception during query!");
+                System.out.println(" Error during query! (Some information might not be consistent)");
                 System.out.println("   Err: " + e.getMessage());
             }
             // Calling Service methods
