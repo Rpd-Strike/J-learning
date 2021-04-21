@@ -2,6 +2,7 @@ package Models;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import Database.DbStore;
 import Exceptions.DeleteException;
@@ -81,5 +82,22 @@ public class Grupa extends Model<Grupa> {
 
     public ArrayList<String> getStudents() {
         return students;
+    }
+
+    @Override
+    public Grupa loadFromTokens(String[] tokens) {
+        return new Grupa(
+            tokens[0],
+            getArrayTokens(tokens, 1)
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        String[] tokens = new String[1 + 1 + students.size()];
+        tokens[0] = name;
+        writeStringsToArray(tokens, 1, students);
+
+        return tokens;
     }
 }

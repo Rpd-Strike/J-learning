@@ -2,6 +2,7 @@ package Models;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import Database.DbStore;
@@ -49,6 +50,16 @@ public abstract class Model<M extends Model<M>> implements Comparable<Model<M>> 
     public abstract void deleteValidation(DbStore ds) 
     throws DeleteException;
 
+    /**
+     * Returns a model from String tokens
+     */
+    public abstract M loadFromTokens(String[] tokens);
+
+    /**
+     * Returns tokenized representation of model
+     * @return
+     */
+    public abstract String[] toTokens();
 
     public void New(DbStore ds) 
     throws Exception
@@ -84,6 +95,21 @@ public abstract class Model<M extends Model<M>> implements Comparable<Model<M>> 
     public void Show()
     {
         Show(System.out);
+    }
+
+    protected ArrayList<String> getArrayTokens(String[] tokens, int pos_start)
+    {
+        int length = Integer.parseInt(tokens[pos_start]);
+        return new ArrayList<>( Arrays.asList( 
+            Arrays.copyOfRange(tokens, pos_start + 1, pos_start + 1 + length)));
+    }
+
+    protected void writeStringsToArray(String[] dest, int pos, ArrayList<String> src)
+    {
+        dest[pos++] = Integer.toString(src.size());
+        for (String el : src) {
+            dest[pos++] = el;
+        }
     }
 
     protected String UpdatedString(String keyName, String oldValue)

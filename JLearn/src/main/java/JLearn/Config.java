@@ -7,7 +7,7 @@ public class Config {
     public enum DbType 
     {
         IN_MEMORY,
-        // CSV_FILE,
+        CSV_FILE,
         // JDBC,
     }
 

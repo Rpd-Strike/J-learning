@@ -107,4 +107,26 @@ public class Enrollment extends Model<Enrollment> {
     {
         return cursKey;
     }
+
+    @Override
+    public Enrollment loadFromTokens(String[] tokens) {
+        return new Enrollment(
+            tokens[0],
+            tokens[1],
+            tokens[2],
+            tokens[3],
+            tokens[4]
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        return new String [] {
+            key,
+            cursKey,
+            studentKey,
+            status,
+            grade
+        };
+    }
 }

@@ -12,13 +12,15 @@ public class DbContext {
     {
         // Create empty storage
         data = new DbStore();
+        
         // Instantiate the type of backend needed by the app
         backend = DbBackend.newBackend(type);
+        // Depending on backend, load from file / JDBC / do nothing
+        backend.Initialize(data);
+
         // Populate with mock data first
         if (Config.useMockData)
             Factory.addMockData(data);
-        // Depending on backend, load from file / JDBC / do nothing
-        backend.Initialize(data);
     }
 
     public DbStore getData()

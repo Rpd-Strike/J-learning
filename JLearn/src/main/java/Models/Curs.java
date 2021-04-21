@@ -82,4 +82,20 @@ public class Curs extends Model<Curs> {
     public Curs copyModel() {
         return new Curs(name, credits);
     }
+
+    @Override
+    public Curs loadFromTokens(String[] tokens) {
+        return new Curs(
+            tokens[0],
+            Integer.parseInt(tokens[1])
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        return new String [] {
+            name,
+            Integer.toString(credits)
+        };
+    }
 }

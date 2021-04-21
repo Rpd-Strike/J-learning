@@ -12,8 +12,8 @@ import JLearn.Config;
 
 public class QuizProblem extends Model<QuizProblem> {
     private String text;
-    private ArrayList<String> answers;
     private int correct;
+    private ArrayList<String> answers;
 
     public QuizProblem() { }
 

@@ -1,6 +1,8 @@
 package Database;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 import Exceptions.DeleteException;
@@ -62,6 +64,21 @@ public class ModelStorage <T extends Model<T>>
             container.add(copie);
             throw e;
         }
+    }
+
+    public void insertFromTokens(String[] tokens) throws Exception
+    {
+        T obj = ctor.newInstance().loadFromTokens(tokens);
+        container.add(obj);
+    }
+
+    public List<String[]> toTokens()
+    {
+        List<String[]> csv_items = new ArrayList<>();
+        for (T model : container) {
+            csv_items.add(model.toTokens());
+        }
+        return csv_items;
     }
 
     public TreeSet<T> getContainer() {
