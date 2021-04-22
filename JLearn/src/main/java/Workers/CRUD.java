@@ -1,6 +1,5 @@
 package Workers;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import Database.DbStore;

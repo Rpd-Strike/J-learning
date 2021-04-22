@@ -31,6 +31,7 @@ public class CsvBackend extends DbBackend {
             }
             catch (Exception e) {
                 System.out.println("Error reading and creating objects from CSV: " + e.getMessage());
+                System.out.println("Probably file not existent, but now it just got created");
             }
         }
 
