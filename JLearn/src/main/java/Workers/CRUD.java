@@ -1,5 +1,6 @@
 package Workers;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import Database.DbStore;
@@ -77,7 +78,7 @@ public class CRUD {
     }
 
     private <T extends Model<T>> 
-    void opSearch(String[] args, ModelStorage<T> container) throws InputException {
+    void opSearch(String[] args, ModelStorage<T> container) throws Exception {
         if (args.length < 1)
             throw new InputException("Expected search query");
         String key = String.join(" ", args);
@@ -87,17 +88,22 @@ public class CRUD {
                 System.out.println("");
             }
         }
+
+        Audit.getInstance().logOp("CRUD Search on: " + container.ModelName());
     }
 
     private <T extends Model<T>> 
-    void opShow(String[] args, ModelStorage<T> container) throws InputException {
+    void opShow(String[] args, ModelStorage<T> container) throws Exception {
         if (args.length < 1)
             throw new InputException("Expected a <Key/Name> argument");
-        T obj = container.strictSearch(String.join(" ", args));
+        String key = String.join(" ", args);
+        T obj = container.strictSearch(key);
         if (obj == null)
             System.out.println("Couldn't find an object matching the key");
         else
             obj.Show();
+
+        Audit.getInstance().logOp("CRUD Show on: " + container.ModelName() + ", with key: " + key);
     }
 
     private <T extends Model<T>> 
@@ -105,7 +111,7 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected a <Key/Name> argument");
         String key = String.join(" ", args);
-        container.Delete(key, db);
+        container.Delete(key, container.ModelName(), db);
     }
 
     private <T extends Model<T>> 
@@ -114,7 +120,7 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected name of model");
         String key = String.join(" ", args);
-        container.Update(key, db);
+        container.Update(key, container.ModelName(), db);
     }
 
     private <T extends Model<T>> 
@@ -128,13 +134,20 @@ public class CRUD {
                 "> already contains key '" + obj.getKey() + "'");
         }
         container.getContainer().add(obj);
+        
+        Audit.getInstance().logOp("CRUD New on: " + container.ModelName() + ", with key: " + obj.getKey());
     }
 
-    private void opList(ModelStorage<? extends Model<?>> container) {
+    private 
+    void opList(ModelStorage<? extends Model<?>> container)
+    throws Exception 
+    {
         System.out.println("");
         for (var obj : container.getContainer()) {
             obj.Show();
             System.out.println("");
         }
+
+        Audit.getInstance().logOp("List models: " + container.ModelName());
     }
 }

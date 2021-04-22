@@ -1,5 +1,7 @@
 package Workers;
 
+import java.io.IOException;
+
 import Database.DbStore;
 
 public class Queries {
@@ -21,7 +23,7 @@ public class Queries {
                            "  - listAll");
     }
 
-    public void runQuery(String args[], DbStore ds)
+    public void runQuery(String args[], DbStore ds) throws IOException
     {
         if (args.length < 1) {
             System.out.println("Expected name of query!\n  Usage:");
@@ -44,8 +46,9 @@ public class Queries {
     /**
      * Shows an overview of the data stored in "database"
      * @param ds
+     * @throws IOException
      */
-    public void listOverview(DbStore ds)
+    public void listOverview(DbStore ds) throws IOException
     {
         int total_items = 0;
         for (String model : ds.getAllData().keySet()) {
@@ -55,13 +58,16 @@ public class Queries {
             total_items += count;
         }
         System.out.println("In total the database contains " + total_items + " items");
+
+        Audit.getInstance().logOp("List Overview");
     }
 
     /**
      * Lists all models saved in "database"
      * @param ds
+     * @throws IOException
      */
-    public void listAll(DbStore ds)
+    public void listAll(DbStore ds) throws IOException
     {
         System.out.println("List of all data for each model");
         for (String model : ds.getAllData().keySet()) {
@@ -72,5 +78,7 @@ public class Queries {
                 obj.Show();
             }
         }
+
+        Audit.getInstance().logOp("Listed all items in database");
     }
 }

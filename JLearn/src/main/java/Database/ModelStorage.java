@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import Exceptions.DeleteException;
 import Exceptions.InputException;
 import Models.Model;
+import Workers.Audit;
 
 public class ModelStorage <T extends Model<T>>
 {
@@ -28,7 +29,7 @@ public class ModelStorage <T extends Model<T>>
         ctor = clazz.getDeclaredConstructor();
     }
 
-    public void Delete(String key, DbStore db) throws Exception
+    public void Delete(String key, String modelName, DbStore db) throws Exception
     {
         T obj = strictSearch(key);
         if (obj == null) {
@@ -40,6 +41,8 @@ public class ModelStorage <T extends Model<T>>
                 throw new InputException("Did not find <" + ModelName() + 
                     "> by key <" + key + ">");
             obj.deleteValidation(db);
+
+            Audit.getInstance().logOp("CRUD Delete on: " + modelName + ", with key: " + key);
         }
         catch (Exception e)
         {
@@ -48,7 +51,7 @@ public class ModelStorage <T extends Model<T>>
         }
     }
 
-    public void Update(String key, DbStore db) throws Exception
+    public void Update(String key, String modelName, DbStore db) throws Exception
     {
         T obj = strictSearch(key);
         if (obj == null) {
@@ -63,6 +66,8 @@ public class ModelStorage <T extends Model<T>>
             container.remove(obj);
             container.add(copie);
             throw e;
+        } finally {
+            Audit.getInstance().logOp("CRUD Update on: " + modelName + ", with key: " + key);
         }
     }
 
