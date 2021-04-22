@@ -79,4 +79,20 @@ public class Serie extends Model<Serie> {
     {
         return groups;
     }
+
+    @Override
+    public Serie loadFromTokens(String[] tokens) {
+        return new Serie(
+            tokens[0],
+            getArrayTokens(tokens, 1)
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        String[] tokens = new String[1 + 1 + groups.size()];
+        tokens[0] = name;
+        writeStringsToArray(tokens, 1, groups);
+        return tokens;
+    }
 }

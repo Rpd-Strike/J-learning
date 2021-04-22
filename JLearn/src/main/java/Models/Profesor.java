@@ -95,4 +95,24 @@ public class Profesor extends Model<Profesor>
     {
         return cursuri;
     }
+
+    @Override
+    public Profesor loadFromTokens(String[] tokens) {
+        return new Profesor(
+            tokens[0],
+            tokens[1],
+            tokens[2],
+            getArrayTokens(tokens, 3)
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        String[] tokens = new String[3 + 1 + cursuri.size()];
+        tokens[0] = fullName;
+        tokens[1] = email;
+        tokens[2] = phone;
+        writeStringsToArray(tokens, 3, cursuri);
+        return tokens;
+    }
 }

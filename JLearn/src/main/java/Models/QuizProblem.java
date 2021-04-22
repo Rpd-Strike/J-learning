@@ -17,7 +17,7 @@ public class QuizProblem extends Model<QuizProblem> {
 
     public QuizProblem() { }
 
-    public QuizProblem(String text, ArrayList<String> answers, int correct)
+    public QuizProblem(String text, int correct, ArrayList<String> answers)
     {
         this.text = text;
         this.answers = answers;
@@ -98,6 +98,24 @@ public class QuizProblem extends Model<QuizProblem> {
     @Override
     public QuizProblem copyModel()
     {
-        return new QuizProblem(text, new ArrayList<>(answers), correct);
+        return new QuizProblem(text, correct, new ArrayList<>(answers));
+    }
+
+    @Override
+    public QuizProblem loadFromTokens(String[] tokens) {
+        return new QuizProblem(
+            tokens[0],
+            Integer.parseInt(tokens[1]),
+            getArrayTokens(tokens, 2)
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        String[] tokens = new String[2 + 1 + answers.size()];
+        tokens[0] = text;
+        tokens[1] = Integer.toString(correct);
+        writeStringsToArray(tokens, 2, answers);
+        return tokens;
     }
 }

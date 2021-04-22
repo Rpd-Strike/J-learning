@@ -81,4 +81,22 @@ public class Student extends Model<Student> {
                 throw new DeleteException("Deleting/Modifying <" + Config.StoreNames.student + ">" + 
                     " invalidates <" + Config.StoreNames.grupa + ">: '" + grupa.getKey() + "'");
     }
+
+    @Override
+    public Student loadFromTokens(String[] tokens) {
+        return new Student(
+            tokens[0],
+            tokens[1],
+            tokens[2]
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        return new String[] {
+            fullName,
+            age,
+            bursa
+        };
+    }
 }

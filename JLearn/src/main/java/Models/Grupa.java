@@ -2,7 +2,6 @@ package Models;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import Database.DbStore;
 import Exceptions.DeleteException;

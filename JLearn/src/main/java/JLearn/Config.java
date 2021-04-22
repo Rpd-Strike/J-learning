@@ -29,13 +29,15 @@ public class Config {
         public static final String serie = "serie";
     }
 
-    public static final DbType  dbType = DbType.IN_MEMORY;
+    public static final DbType  dbType = DbType.CSV_FILE;
     
     /**
      * at the start of the app, before loading database, 
      * populate with extra mock data
+     * 
+     * If using mock data, it's recommended to use InMemory dbType !!!!!!!!!!!!
      */
-    public static final boolean useMockData = true;
+    public static final boolean useMockData = false;
 
     private Config() { }
 }

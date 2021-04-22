@@ -92,4 +92,22 @@ public class Quiz extends Model<Quiz> {
     {
         return cursKey;
     }
+
+    @Override
+    public Quiz loadFromTokens(String[] tokens) {
+        return new Quiz(
+            tokens[0],
+            tokens[1],
+            getArrayTokens(tokens, 2)
+        );
+    }
+
+    @Override
+    public String[] toTokens() {
+        String[] tokens = new String[2 + 1 + questions.size()];
+        tokens[0] = name;
+        tokens[1] = cursKey;
+        writeStringsToArray(tokens, 2, questions);
+        return tokens;
+    }
 }

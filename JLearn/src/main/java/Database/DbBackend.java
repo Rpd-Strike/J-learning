@@ -1,5 +1,6 @@
 package Database;
 
+import Database.Backend.CsvBackend;
 import Database.Backend.InMemoryBackend;
 import JLearn.Config.*;
 
@@ -24,6 +25,9 @@ public abstract class DbBackend {
         switch (type) {
             case IN_MEMORY: 
                 backend = new InMemoryBackend();
+                break;
+            case CSV_FILE: 
+                backend = new CsvBackend();
                 break;
             default:
                 throw new Exception(type.toString() + " backend not implemented!");

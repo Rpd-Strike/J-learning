@@ -48,15 +48,17 @@ public class Factory {
 
     private static QuizProblem[] quizQuestions_mock = {
         new QuizProblem("Cine a inventat masina turing", 
+            1,
             new ArrayList<String> (Arrays.asList(
-            "Alan Turing",
-            "Katy Perry",
-            "Proful de la curs",
-            "Extraterestrii")), 1),
+                "Alan Turing",
+                "Katy Perry",
+                "Proful de la curs",
+                "Extraterestrii"))),
         new QuizProblem("Ce algoritm cunosti", 
+            1,
             new ArrayList<String> (Arrays.asList(
             "Niciunul",
-            "Toate")), 1)
+            "Toate")))
     };
 
     private static Quiz[] quiz_mock = {
