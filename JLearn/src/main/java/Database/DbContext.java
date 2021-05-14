@@ -19,13 +19,20 @@ public class DbContext {
         backend.Initialize(data);
 
         // Populate with mock data first
-        if (Config.useMockData)
+        if (Config.useMockData) {
             Factory.addMockData(data);
+            backend.HardSave(data);
+        }
     }
 
     public DbStore getData()
     {
         return data;
+    }
+
+    public DbBackend getBackend()
+    {
+        return backend;
     }
 
     public void Save()

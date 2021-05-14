@@ -2,6 +2,7 @@ package Workers;
 
 import java.util.Arrays;
 
+import Database.DbContext;
 import Database.DbStore;
 import Database.ModelStorage;
 import Exceptions.InputException;
@@ -12,10 +13,12 @@ public class CRUD {
     private static CRUD instance = null;
 
     private DbStore db;
+    private DbContext dbContext;
 
     private CRUD()
     {
         db = AppService.getInstance().getDbStore();
+        dbContext = AppService.getInstance().getDbContext();
     }
 
     public static CRUD getInstance()
@@ -61,7 +64,7 @@ public class CRUD {
                 opSearch(args, container);
                 break;
             case "New":
-            opNew(container);
+                opNew(container);
                 break;
             case "Update":
                 opUpdate(args, container);
@@ -110,7 +113,7 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected a <Key/Name> argument");
         String key = String.join(" ", args);
-        container.Delete(key, container.ModelName(), db);
+        container.Delete(key, container.ModelName(), db, dbContext);
     }
 
     private <T extends Model<T>> 
@@ -119,7 +122,7 @@ public class CRUD {
         if (args.length < 1)
             throw new InputException("Expected name of model");
         String key = String.join(" ", args);
-        container.Update(key, container.ModelName(), db);
+        container.Update(key, container.ModelName(), db, dbContext);
     }
 
     private <T extends Model<T>> 
@@ -132,7 +135,7 @@ public class CRUD {
             throw new Exception("<" + obj.ModelName() + 
                 "> already contains key '" + obj.getKey() + "'");
         }
-        container.getContainer().add(obj);
+        container.New(obj, db, dbContext);
         
         Audit.getInstance().logOp("CRUD New on: " + container.ModelName() + ", with key: " + obj.getKey());
     }

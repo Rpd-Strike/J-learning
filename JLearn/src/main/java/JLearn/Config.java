@@ -8,7 +8,7 @@ public class Config {
     {
         IN_MEMORY,
         CSV_FILE,
-        // JDBC,
+        JDBC,
     }
 
     public enum EnvType
@@ -29,7 +29,7 @@ public class Config {
         public static final String serie = "serie";
     }
 
-    public static final DbType  dbType = DbType.CSV_FILE;
+    public static final DbType  dbType = DbType.JDBC;
     
     /**
      * at the start of the app, before loading database, 
