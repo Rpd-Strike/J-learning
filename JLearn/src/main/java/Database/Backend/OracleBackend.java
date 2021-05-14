@@ -206,7 +206,8 @@ class DbConnection {
         Audit.getInstance().logOp("Created connection to database server");
     }
 
-    static public DbConnection getInstance() throws SQLException, IOException
+    static public DbConnection getInstance() 
+    throws SQLException, IOException
     {
         if (instance == null)
             instance = new DbConnection();
