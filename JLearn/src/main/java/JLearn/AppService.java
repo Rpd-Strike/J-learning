@@ -67,4 +67,8 @@ public final class AppService {
     {
         return db.getData();
     }
+
+    public DbContext getDbContext() {
+        return db;
+    }
 }

@@ -1,6 +1,8 @@
 package Database;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -29,7 +31,8 @@ public class ModelStorage <T extends Model<T>>
         ctor = clazz.getDeclaredConstructor();
     }
 
-    public void Delete(String key, String modelName, DbStore db) throws Exception
+    public void Delete(String key, String modelName, DbStore db, DbContext dbCtx) 
+    throws Exception
     {
         T obj = strictSearch(key);
         if (obj == null) {
@@ -42,6 +45,8 @@ public class ModelStorage <T extends Model<T>>
                     "> by key <" + key + ">");
             obj.deleteValidation(db);
 
+            dbCtx.getBackend().Delete(obj);
+
             Audit.getInstance().logOp("CRUD Delete on: " + modelName + ", with key: " + key);
         }
         catch (Exception e)
@@ -51,7 +56,15 @@ public class ModelStorage <T extends Model<T>>
         }
     }
 
-    public void Update(String key, String modelName, DbStore db) throws Exception
+    public void New(T obj, DbStore db, DbContext dbCtx) 
+    throws IOException, SQLException {
+        container.add(obj);
+
+        dbCtx.getBackend().New(obj);
+    }
+
+    public void Update(String key, String modelName, DbStore db, DbContext dbCtx)
+    throws Exception
     {
         T obj = strictSearch(key);
         if (obj == null) {
@@ -61,6 +74,7 @@ public class ModelStorage <T extends Model<T>>
         T copie = obj.copyModel();
         try {
             obj.Update(db);
+            dbCtx.getBackend().Update(copie, obj);
         }
         catch (Exception e) {
             container.remove(obj);
@@ -112,4 +126,6 @@ public class ModelStorage <T extends Model<T>>
             throw new Exception("Failed getting Model Name");
         }
     }
+
+    
 }

@@ -72,6 +72,12 @@ public class Factory {
     throws Exception
     {
         try {
+            for (var storage : ds.getAllData().values()) {
+                if (storage.getContainer().size() != 0) {
+                    throw new Error("Trying to use factory data with previous data already loaded!");
+                }
+            }
+
             for (Student obj : student_mock) 
                 ds.getStudents().add(obj);
             for (Curs obj : curs_mock) 
