@@ -42,14 +42,6 @@ public class DbStore
         
     }
 
-    // public void insertData(DbStore otherData) throws Exception
-    // { Work in progress
-    //     if (this == otherData) {
-    //         throw new Exception("Trying to combine one instance of <DbStore> " +
-    //             "to exactly the same <DbStore>");
-    //     }
-    // }
-
     public HashMap<String, ModelStorage<? extends Model<?>>> getAllData()
     {
         return storage;

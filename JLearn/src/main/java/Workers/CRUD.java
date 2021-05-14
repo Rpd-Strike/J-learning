@@ -76,7 +76,6 @@ public class CRUD {
                 System.out.println("Command on Model not recognized ... ");
                 showHelp();
         }
-        // TODO: profesor <Model>   -- shows nothing
     }
 
     private <T extends Model<T>> 
